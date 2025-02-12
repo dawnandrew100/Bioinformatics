@@ -13,4 +13,6 @@ str.data = data.frame(
     nuc_count = nucleotide_count
 )
 
+print(str)
 print(str.data, row.names=FALSE)
+print(str.data$nuc_count)
