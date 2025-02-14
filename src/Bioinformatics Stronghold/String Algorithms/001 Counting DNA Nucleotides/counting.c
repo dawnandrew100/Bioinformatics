@@ -1,17 +1,17 @@
 #include <stdio.h>
+#include <stdbool.h>
 
-int aa_counter(char *seq, int *nuc_counter, char values[]);
+int aa_counter(char *seq, int *nuc_counter, char values[], int nuc_len);
 
 int main(){
     char aa[] = "AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC";
 
-    int nucleotides[4] = {0, 0, 0, 0};
-    char nuc_values[4] = {'A', 'C', 'G', 'T'};
-    if(aa_counter(aa, nucleotides, nuc_values) != 0){
-        printf("Only nucleotides can be counted!");
+    char nuc_values[] = {'A', 'C', 'G', 'T'};
+    int size = sizeof(nuc_values)/sizeof(nuc_values[0]);
+    int nucleotides[size] = {};
+    if(aa_counter(aa, nucleotides, nuc_values, size) != 0){
+        printf("Only nucleotides can be counted! Here are nucleotides counted before invalid char:\n");
     }
-
-    int size = sizeof(nucleotides)/sizeof(nucleotides[0]);
     for(int i=0;i<size;i++){ //Amino acid with count (pseudo-dictionary)
         printf("%c:%d ", nuc_values[i], nucleotides[i]);
     }
@@ -23,19 +23,18 @@ int main(){
     return 0;
 }
 
-int aa_counter(char *seq, int *nuc_counter, char values[]){
-    for(int i=0; seq[i]!='\0'; i++){
-        if(seq[i] == values[0]){
-            nuc_counter[0]++;
-        } else if(seq[i] == values[1]) {
-            nuc_counter[1]++;
-        } else if(seq[i] == values[2]) {
-            nuc_counter[2]++;
-        } else if(seq[i] == values[3]) {
-            nuc_counter[3]++;
-        } else {
-            return 1;
+int aa_counter(char *seq, int *nuc_counter, char values[], int nuc_len){
+    for(int i=0; seq[i]!='\0'; i++) {
+        bool match = false;
+        for(int j=0; j<nuc_len; j++) {
+            if(seq[i] == values[j]) {
+            nuc_counter[j]++;
+            match = true;
+            }
         }
+        if (match == false) {
+            return 1;
+            }
     }
     return 0;
 }
