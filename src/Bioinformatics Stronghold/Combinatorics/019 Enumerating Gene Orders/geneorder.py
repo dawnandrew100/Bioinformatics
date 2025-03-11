@@ -9,7 +9,7 @@ def main():
         results.append(" ".join(temp))
 
     with open("results.txt", "w") as file:
-        file.write(f"{str(len(results))}\n")
+        file.write(f"{len(results)}\n")
         for result in results:
             file.write(f"{result}\n")
 
